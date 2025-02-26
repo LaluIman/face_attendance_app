@@ -16,4 +16,4 @@ Makefile linguist-detectable=false
 *.rb linguist-vendored
 *.java linguist-vendored
 *.c linguist-vendored
-*.c++ linguist-vendored
+*.cpp linguist-vendored
