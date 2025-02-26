@@ -1,0 +1,30 @@
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "students-attendance-mlkit",
+                    "appId": "1:371247944802:android:a1b62b56b8642695e76d3b",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "ios": {
+                "default": {
+                    "projectId": "students-attendance-mlkit",
+                    "appId": "1:371247944802:ios:6a6e7c62fedaf6dce76d3b",
+                    "uploadDebugSymbols": false,
+                    "fileOutput": "ios/Runner/GoogleService-Info.plist"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "students-attendance-mlkit",
+                    "configurations": {
+                        "android": "1:371247944802:android:a1b62b56b8642695e76d3b",
+                        "ios": "1:371247944802:ios:6a6e7c62fedaf6dce76d3b"
+                    }
+                }
+            }
+        }
+    }
+}
