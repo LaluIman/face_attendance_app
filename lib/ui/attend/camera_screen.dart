@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'dart:ui';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -78,23 +78,28 @@ class _CameraScreenState extends State<CameraScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.blueAccent,
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: Icon(
-            Icons.arrow_back_ios_new_rounded, 
-            color: Colors.white
-          )
-        ),
-        title: Text(
-          'Take a selfie', 
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.bold
-          )
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(kToolbarHeight),
+        child: AppBar(
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              color: Colors.blueAccent
+            ),
+          ),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            }, 
+            icon: Icon(Icons.arrow_back_ios_new, color: Colors.white,),
+          ),
+          title: Text(
+            'Take a selfie',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.white
+            ),
+          ),
         ),
       ),
 
@@ -120,75 +125,75 @@ class _CameraScreenState extends State<CameraScreen> {
           ),
 
           Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              width: size.width,
-              height: 200,
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30)
-                )
-              ),
-              child: Column(
-                children: [
-                  const SizedBox(height: 20),
-                  const Text(
-                    "Make sure you're in a well-lit area and your face is clearly visible",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 40),
-                    child: ClipOval(
-                      child: Material(
-                        color: Colors.blueAccent,
-                        child: InkWell(
-                          splashColor: Colors.blue,
-                          child: SizedBox(
-                            width: 56,
-                            height: 56,
-                            child: Icon(Icons.camera_enhance_outlined, color: Colors.white,),
-                          ),
-                          onTap: () async {
-                            final hasPermissions = await handleLocationPermission();
-                            try {
-                              if (controller != null) {
-                                if (controller!.value.isInitialized) {
-                                  controller!.setFlashMode(FlashMode.off);
-                                  image = await controller!.takePicture();
-                                  setState(() {
-                                    if (hasPermissions) {
-                                      showLoaderDialog(context);
-                                      final inputImage = InputImage.fromFilePath(image!.path);
-                                      Platform.isAndroid
-                                          ? processImage(inputImage) 
-                                          : Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) => 
-                                                AttendScreen(image: image)
-                                              )
-                                            );
-                                    } else {
-                                      customSnackbar(context, Icons.location_on_outlined, 'Please enable location permission');
-                                      }
-                                  });     
-                                }
-                              }
-                            } catch (e) {
-                                customSnackbar(context, Icons.error_outline, "oops, $e");
-                              }
-                          },
-                        ),
-                      ),
+  alignment: Alignment.bottomCenter,
+  child: ClipRRect(
+    borderRadius: const BorderRadius.only(
+      topLeft: Radius.circular(30),
+      topRight: Radius.circular(30),
+    ),
+    child: Container(
+      color: Colors.white,
+      width: size.width,
+      height: 200,
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      child: Column(
+        children: [
+          const SizedBox(height: 20),
+          const Text(
+            "Make sure you're in a well-lit area and your face is clearly visible", textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 40),
+            child: ClipOval(
+              child: Material(
+                color: Colors.blueAccent,
+                child: InkWell(
+                  splashColor: Colors.blue.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(28),
+                  child: const SizedBox(
+                    width: 56,
+                    height: 56,
+                    child: Center(
+                      child: Icon(Icons.camera_enhance_outlined, color: Colors.white),
                     ),
-                  )
-                ],
-              )
+                  ),
+                  onTap: () async {
+                    final hasPermissions = await handleLocationPermission();
+                    try {
+                      if (controller != null && controller!.value.isInitialized) {
+                        controller!.setFlashMode(FlashMode.off);
+                        image = await controller!.takePicture();
+                        setState(() {
+                          if (hasPermissions) {
+                            showLoaderDialog(context);
+                            final inputImage = InputImage.fromFilePath(image!.path);
+                            Platform.isAndroid
+                                ? processImage(inputImage)
+                                : Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => AttendScreen(image: image),
+                                    ),
+                                  );
+                          } else {
+                            customSnackbar(context, Icons.location_on_outlined, 'Please enable location permission');
+                          }
+                        });
+                      }
+                    } catch (e) {
+                      customSnackbar(context, Icons.error_outline, "oops, $e");
+                    }
+                  },
+                ),
+              ),
             ),
-          )
+          ),
+        ],
+      ),
+    ),
+  ),
+)
         ],
       ),
     );

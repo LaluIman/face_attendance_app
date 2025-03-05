@@ -1,0 +1,2 @@
+/Users/laluimanabdullah/Documents/ITmabruh/Flutter_stuff/students_attendance_app_mlkit/android/app/.cxx/RelWithDebInfo/3e6wi4c3/x86_64/CMakeFiles/edit_cache.dir
+/Users/laluimanabdullah/Documents/ITmabruh/Flutter_stuff/students_attendance_app_mlkit/android/app/.cxx/RelWithDebInfo/3e6wi4c3/x86_64/CMakeFiles/rebuild_cache.dir

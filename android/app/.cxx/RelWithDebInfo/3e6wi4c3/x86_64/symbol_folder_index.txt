@@ -1,0 +1,1 @@
+/Users/laluimanabdullah/Documents/ITmabruh/Flutter_stuff/students_attendance_app_mlkit/build/app/intermediates/cxx/RelWithDebInfo/3e6wi4c3/obj/x86_64
